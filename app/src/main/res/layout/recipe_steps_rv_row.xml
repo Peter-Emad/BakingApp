@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlRecipeStepContainer"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/row_recipe_steps_width"
+    android:layout_marginEnd="@dimen/margin_10"
+    android:layout_marginStart="@dimen/margin_10"
+    android:layout_marginTop="@dimen/margin_5">
+
+    <TextView
+        android:id="@+id/txtRecipeStepDescription"
+        style="@style/txtWhiteMediumStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:textColor="@color/colorBlack" />
+
+    <ImageView
+        android:id="@+id/imgRecipeStepImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_video"
+        android:visibility="gone" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_1"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/margin_5"
+        android:background="@color/colorBlack" />
+</RelativeLayout>
