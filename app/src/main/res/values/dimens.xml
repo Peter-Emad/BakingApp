@@ -32,5 +32,6 @@
     <dimen name="recipe_main_image">120dp</dimen>
     <dimen name="txt_row_width">40dp</dimen>
     <dimen name="row_recipe_steps_width">50dp</dimen>
+    <dimen name="recipe_step_video_height">250dp</dimen>
 
 </resources>

@@ -3,4 +3,5 @@
     <string name="ingredient">Ingredients</string>
     <string name="steps">Steps</string>
     <string name="recipeDescription"> %d- %s</string>
+    <string name="recipeStep"> %d / %d</string>
 </resources>
