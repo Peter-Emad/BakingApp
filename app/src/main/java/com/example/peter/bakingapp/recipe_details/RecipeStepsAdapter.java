@@ -41,9 +41,10 @@ class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.MyViewH
     public void onBindViewHolder(RecipeStepsAdapter.MyViewHolder holder, int position) {
         if (recipeSteps.get(position) != null) {
             holder.txtRecipeStepDescription.setText(context.getString(R.string.recipeDescription, position, recipeSteps.get(position).getShortDescription()));
-            if (TextUtils.isEmpty(recipeSteps.get(position).getVideoURL()) && TextUtils.isEmpty(recipeSteps.get(position).getThumbnailURL()))
+            if (TextUtils.isEmpty(recipeSteps.get(position).getVideoURL()))
                 holder.imgRecipeStepImage.setVisibility(View.GONE);
-            else holder.imgRecipeStepImage.setVisibility(View.VISIBLE);
+            else
+                holder.imgRecipeStepImage.setVisibility(View.VISIBLE);
         }
     }
 

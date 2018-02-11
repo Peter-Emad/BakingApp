@@ -36,7 +36,7 @@ public class RecipesListingPresenter extends BasePresenter {
         public void onResponse(JSONArray response) {
             recipesListingView.progressStatus(false);
             if (response != null) {
-                RecipesResponse[] recipesResponse = BakingApp.getmGson().fromJson(response.toString(), RecipesResponse[].class);
+                RecipesResponse[] recipesResponse = BakingApp.getBakingAppInstance().getmGson().fromJson(response.toString(), RecipesResponse[].class);
                 recipesListingView.onRecipesLoaded(recipesResponse);
             }
 

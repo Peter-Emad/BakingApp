@@ -9,12 +9,20 @@ import com.example.peter.bakingapp.common.base.BaseActivity;
 
 public class RecipesListingActivity extends BaseActivity {
 
+    private RecipesListingFragment recipesListingFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_listing);
         initializeViews();
+
+        if (savedInstanceState != null)
+            recipesListingFragment = (RecipesListingFragment) getSupportFragmentManager().getFragment(savedInstanceState, RecipesListingFragment.class.getName());
+        else
+            recipesListingFragment = new RecipesListingFragment();
         loadFragment();
+
     }
 
     @Override
@@ -31,6 +39,15 @@ public class RecipesListingActivity extends BaseActivity {
     @Override
     protected void loadFragment() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container_body, new RecipesListingFragment()).commit();
+        fragmentTransaction.replace(R.id.container_body, recipesListingFragment).commit();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (recipesListingFragment != null)
+            getSupportFragmentManager().putFragment(outState, RecipesListingFragment.class.getName(), recipesListingFragment);
     }
 }
+
+

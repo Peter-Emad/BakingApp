@@ -4,7 +4,7 @@
     android:id="@+id/cvRecipeItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin_10"
+    android:layout_margin="@dimen/margin_5"
     android:clickable="true"
     android:focusable="true"
     app:cardCornerRadius="@dimen/margin_4"
@@ -49,7 +49,7 @@
             android:id="@+id/imgRecipeItemIngredient"
             android:layout_width="@dimen/recipe_details_size"
             android:layout_height="@dimen/recipe_details_size"
-            android:layout_marginStart="@dimen/margin_30"
+            android:layout_marginStart="@dimen/margin_25"
             android:src="@drawable/recipe_ingredient"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imgRecipeItemImage" />
@@ -69,7 +69,7 @@
             android:id="@+id/imgRecipeItemSteps"
             android:layout_width="@dimen/recipe_details_size"
             android:layout_height="@dimen/recipe_details_size"
-            android:layout_marginStart="@dimen/margin_30"
+            android:layout_marginStart="@dimen/margin_25"
             android:src="@drawable/recipe_steps"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imgRecipeItemIngredient" />
@@ -89,7 +89,7 @@
             android:id="@+id/imgRecipeItemServing"
             android:layout_width="@dimen/recipe_details_size"
             android:layout_height="@dimen/recipe_details_size"
-            android:layout_marginStart="@dimen/margin_30"
+            android:layout_marginStart="@dimen/margin_25"
             android:src="@drawable/serving_dinner"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imgRecipeItemSteps" />

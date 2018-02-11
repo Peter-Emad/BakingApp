@@ -1,9 +1,9 @@
 package com.example.peter.bakingapp.recipe;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,7 +17,7 @@ import com.example.peter.bakingapp.common.base.BaseFragment;
 import com.example.peter.bakingapp.common.models.dto.RecipesResponse;
 import com.example.peter.bakingapp.recipe_details.RecipeDetailsActivity;
 
-import static com.example.peter.bakingapp.common.helpers.Constants.RECIPE_KEY;
+import static com.example.peter.bakingapp.common.helpers.Constants.RECIPES_GRID_LISTINGS_COLUMNS;
 
 /**
  * Created by Peter on 03/02/2018.
@@ -50,8 +50,13 @@ public class RecipesListingFragment extends BaseFragment implements RecipesListi
     protected void initializeViews(View v) {
         recipesListingProgressbar = v.findViewById(R.id.recipesListingProgressbar);
         rvRecipesListing = v.findViewById(R.id.rvRecipesListing);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        rvRecipesListing.setLayoutManager(mLayoutManager);
+        if (getActivity().getResources().getBoolean(R.bool.is_landscape))
+            rvRecipesListing.setLayoutManager(new GridLayoutManager(context, RECIPES_GRID_LISTINGS_COLUMNS));
+        else {
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+            rvRecipesListing.setLayoutManager(mLayoutManager);
+        }
+
     }
 
     @Override
@@ -67,7 +72,7 @@ public class RecipesListingFragment extends BaseFragment implements RecipesListi
     @Override
     public void onRecipesLoaded(RecipesResponse[] recipesResponse) {
 
-        RecipesListingAdapter recipesListingAdapter = new RecipesListingAdapter(context,this, recipesResponse);
+        RecipesListingAdapter recipesListingAdapter = new RecipesListingAdapter(context, this, recipesResponse);
         rvRecipesListing.setAdapter(recipesListingAdapter);
 
 

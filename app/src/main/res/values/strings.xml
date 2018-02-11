@@ -4,4 +4,6 @@
     <string name="steps">Steps</string>
     <string name="recipeDescription"> %d- %s</string>
     <string name="recipeStep"> %d / %d</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>

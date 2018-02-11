@@ -13,6 +13,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/imgRecipeStepImage"
+        android:layout_marginEnd="@dimen/margin_5"
         android:textColor="@color/colorBlack" />
 
     <ImageView

@@ -1,51 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/margin_20">
-
-    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-        android:id="@+id/recipeStepPlayer"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/recipe_step_video_height"
-        android:focusable="true" />
-
-    <TextView
-        android:id="@+id/txtRecipeStepDescription"
-        style="@style/txtWhiteMediumStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/recipeStepPlayer"
-        android:layout_margin="@dimen/margin_20"
-        android:textColor="@color/colorBlack" />
+    android:layout_marginBottom="@dimen/margin_20"
+    android:fillViewport="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imgRecipeStepPrevious"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_100"
-            android:src="@drawable/ic_previous" />
-
-        <ImageView
-            android:id="@+id/imgRecipeStepNext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/margin_100"
-            android:src="@drawable/ic_next" />
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            android:id="@+id/recipeStepPlayer"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/recipe_step_video_height"
+            android:layout_alignParentTop="true"
+            android:focusable="true" />
 
         <TextView
-            android:id="@+id/txtRecipeStepNumber"
+            android:id="@+id/txtRecipeStepDescription"
             style="@style/txtWhiteMediumStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textColor="@color/colorBlack"
-            android:textStyle="bold" />
+            android:layout_below="@+id/recipeStepPlayer"
+            android:layout_margin="@dimen/margin_20"
+            android:textColor="@color/colorBlack" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/txtRecipeStepDescription"
+            android:gravity="bottom">
+
+            <ImageView
+                android:id="@+id/imgRecipeStepPrevious"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_100"
+                android:src="@drawable/ic_previous" />
+
+            <ImageView
+                android:id="@+id/imgRecipeStepNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/margin_100"
+                android:src="@drawable/ic_next" />
+
+            <TextView
+                android:id="@+id/txtRecipeStepNumber"
+                style="@style/txtWhiteMediumStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/imgRecipeStepPrevious"
+                android:layout_toStartOf="@+id/imgRecipeStepNext"
+                android:gravity="center"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold" />
+        </RelativeLayout>
     </RelativeLayout>
-</RelativeLayout>
+</ScrollView>
