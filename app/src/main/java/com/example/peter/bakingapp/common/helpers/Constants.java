@@ -12,6 +12,7 @@ public class Constants {
     public static final String RECIPE_STEP_SELECTED_POSITION = "RECIPE_STEP_SELECTED_POSITION";
     public static final int RECIPES_GRID_LISTINGS_COLUMNS = 2;
     public static final String RECIPE_SELECTED_STEP_DETAILS = "RECIPE_SELECTED_STEP_DETAILS";
+    public static final String SELECTED_RECIPE_VIDEO_POSITION = "SELECTED_RECIPE_VIDEO_POSITION";
     public static final String INGREDIENTS_DATABASE_NAME = "ingredients_database";
 
 

@@ -19,7 +19,7 @@ public interface IngredientsDao {
     List<IngredientsData> getAll();
 
     @Insert
-    void insertAll(List<IngredientsData> products);
+    void insertAll(List<IngredientsData> ingredientsData);
 
     @Update
     void update(IngredientsData ingredientsData);
@@ -28,6 +28,6 @@ public interface IngredientsDao {
     void delete(IngredientsData ingredientsData);
 
     @Delete
-    void deleteAll(List<IngredientsData> products);
+    void deleteAll(List<IngredientsData> ingredientsData);
 
 }

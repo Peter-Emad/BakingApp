@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlBakingAppWidgetContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/widget_margin">
+
+    <TextView
+        android:id="@+id/txtRecipeTitle"
+        style="@style/txtWhiteLargeStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:padding="@dimen/margin_10"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold" />
+
+    <ListView
+        android:id="@+id/lvLastRecipeIngredients"
+        android:layout_width="match_parent"
+        android:background="@color/colorWhite"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtRecipeTitle"
+        tools:listitem="@layout/list_view_row"
+     />
+
+</RelativeLayout>

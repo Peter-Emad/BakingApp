@@ -11,7 +11,6 @@ import android.arch.persistence.room.PrimaryKey;
 public class IngredientsData {
 
 
-
     @PrimaryKey(autoGenerate = true)
     private int uid;
 
@@ -23,6 +22,24 @@ public class IngredientsData {
 
     @ColumnInfo(name = "ingredient")
     private String ingredient;
+
+    @ColumnInfo(name = "recipeName")
+    private String recipeName;
+
+    public IngredientsData(Double quantity, String measure, String ingredient, String recipeName) {
+        this.quantity = quantity;
+        this.measure = measure;
+        this.ingredient = ingredient;
+        this.recipeName = recipeName;
+    }
+
+    public String getRecipeName() {
+        return recipeName;
+    }
+
+    public void setRecipeName(String recipeName) {
+        this.recipeName = recipeName;
+    }
 
     public Double getQuantity() {
         return quantity;

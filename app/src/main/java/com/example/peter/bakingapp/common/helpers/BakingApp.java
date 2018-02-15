@@ -25,7 +25,7 @@ public class BakingApp extends Application {
         super.onCreate();
         bakingAppInstance = this;
         mGson = new GsonBuilder().create();
-        ingredientsDatabase = Room.databaseBuilder(getApplicationContext(), IngredientsDatabase.class, INGREDIENTS_DATABASE_NAME).build();
+        ingredientsDatabase = Room.databaseBuilder(getApplicationContext(), IngredientsDatabase.class, INGREDIENTS_DATABASE_NAME).allowMainThreadQueries().build();
     }
 
 

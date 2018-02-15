@@ -1,20 +1,21 @@
 package com.example.peter.bakingapp.recipe_details;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.peter.bakingapp.R;
 import com.example.peter.bakingapp.common.base.BaseFragment;
 import com.example.peter.bakingapp.common.helpers.BakingApp;
+import com.example.peter.bakingapp.common.models.Ingredient;
 import com.example.peter.bakingapp.common.models.dto.RecipesResponse;
 import com.example.peter.bakingapp.common.provider.IngredientsData;
 
@@ -27,7 +28,7 @@ import static com.example.peter.bakingapp.common.helpers.Constants.RECIPE_KEY;
  * Created by Peter on 04/02/2018.
  */
 
-public class RecipeDetailsFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class RecipeDetailsFragment extends BaseFragment {
 
     private Context context;
     private RecyclerView rvRecipeIngredients, rvRecipeSteps;
@@ -47,6 +48,7 @@ public class RecipeDetailsFragment extends BaseFragment implements LoaderManager
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_recipe_details, container, false);
         initializeViews(v);
+        setHasOptionsMenu(true);
         return v;
     }
 
@@ -65,28 +67,37 @@ public class RecipeDetailsFragment extends BaseFragment implements LoaderManager
         initRvIngredients();
         initRvSteps();
         // run the sentence in a new thread
+        addLatestIngredientsToDatabase(false);
+    }
+
+
+    private void addLatestIngredientsToDatabase(final boolean addCurrentRecipe) {
+        final List<IngredientsData> ingredientsDataList = new ArrayList<>();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                addLatestIngredientsToDatabase();
+                if (!addCurrentRecipe) {
+                    if (BakingApp.getBakingAppInstance().getIngredientsDatabase().ingredientsDao().getAll().size() == 0) {
+                        for (int i = 0; i < recipesResponse.getIngredients().size(); i++)
+                            ingredientsDataList.add(createIngredientDataRow(recipesResponse.getName(), recipesResponse.getIngredients().get(i)));
+
+                        BakingApp.getBakingAppInstance().getIngredientsDatabase().ingredientsDao().insertAll(ingredientsDataList);
+                    }
+                } else {
+                    BakingApp.getBakingAppInstance().getIngredientsDatabase().ingredientsDao().deleteAll(
+                            BakingApp.getBakingAppInstance().getIngredientsDatabase().ingredientsDao().getAll());
+                    for (int i = 0; i < recipesResponse.getIngredients().size(); i++)
+                        ingredientsDataList.add(createIngredientDataRow(recipesResponse.getName(), recipesResponse.getIngredients().get(i)));
+
+                    BakingApp.getBakingAppInstance().getIngredientsDatabase().ingredientsDao().insertAll(ingredientsDataList);
+                }
+
             }
         }).start();
     }
 
-    private void addLatestIngredientsToDatabase() {
-        // clear database of last ingredients
-        if (BakingApp.getBakingAppInstance().getIngredientsDatabase().ingredientsDao().getAll().size() > 0)
-            BakingApp.getBakingAppInstance().getIngredientsDatabase().ingredientsDao().deleteAll(BakingApp.getBakingAppInstance().getIngredientsDatabase().ingredientsDao().getAll());
-        List<IngredientsData> ingredientsDataList = new ArrayList<>();
-        for (int i = 0; i < recipesResponse.getIngredients().size(); i++) {
-            IngredientsData ingredientsData = new IngredientsData();
-            ingredientsData.setIngredient(recipesResponse.getIngredients().get(i).getIngredient());
-            ingredientsData.setMeasure(recipesResponse.getIngredients().get(i).getMeasure());
-            ingredientsData.setQuantity(recipesResponse.getIngredients().get(i).getQuantity());
-            ingredientsDataList.add(ingredientsData);
-        }
-        if (ingredientsDataList.size() > 0)
-            BakingApp.getBakingAppInstance().getIngredientsDatabase().ingredientsDao().insertAll(ingredientsDataList);
+    private IngredientsData createIngredientDataRow(String recipeName, Ingredient ingredient) {
+        return new IngredientsData(ingredient.getQuantity(), ingredient.getMeasure(), ingredient.getIngredient(), recipeName);
     }
 
     private void initRvSteps() {
@@ -116,17 +127,24 @@ public class RecipeDetailsFragment extends BaseFragment implements LoaderManager
 
 
     @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.recipe_details_menu, menu);
 
     }
 
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.add_to_widget_menu_action:
+                addLatestIngredientsToDatabase(true);
+                return true;
+            default:
+                break;
+        }
+
+        return false;
     }
 }

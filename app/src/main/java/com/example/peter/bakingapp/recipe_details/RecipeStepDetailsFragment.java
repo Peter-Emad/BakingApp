@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.peter.bakingapp.common.helpers.Constants.RECIPE_SELECTED_STEP_DETAILS;
+import static com.example.peter.bakingapp.common.helpers.Constants.SELECTED_RECIPE_VIDEO_POSITION;
 
 /**
  * Created by Peter on 05/02/2018.
@@ -80,10 +81,14 @@ public class RecipeStepDetailsFragment extends BaseFragment implements ExoPlayer
         context = getActivity();
         initializeViews(v);
         setListeners();
-        if (savedInstanceState != null)
+        if (savedInstanceState != null) {
             if (savedInstanceState.getInt(RECIPE_SELECTED_STEP_DETAILS) != 0)
                 selectedPosition = savedInstanceState.getInt(RECIPE_SELECTED_STEP_DETAILS);
-        initSelectedRecipeStep(selectedPosition);
+            if (savedInstanceState.getLong(SELECTED_RECIPE_VIDEO_POSITION) != 0)
+                currentVideoPosition = savedInstanceState.getLong(SELECTED_RECIPE_VIDEO_POSITION);
+            initSelectedRecipeStep(selectedPosition);
+        }
+
         return v;
     }
 
@@ -145,7 +150,9 @@ public class RecipeStepDetailsFragment extends BaseFragment implements ExoPlayer
             MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(steps.get(selectedPosition).getVideoURL()), new DefaultDataSourceFactory(context, userAgent), new DefaultExtractorsFactory(), null, null);
             simpleExoPlayer.prepare(mediaSource);
             simpleExoPlayer.setPlayWhenReady(true);
-        }
+        } else
+            simpleExoPlayer.seekTo(currentVideoPosition);
+
     }
 
     private void releasePlayer() {
@@ -153,7 +160,6 @@ public class RecipeStepDetailsFragment extends BaseFragment implements ExoPlayer
             simpleExoPlayer.stop();
             simpleExoPlayer.release();
             simpleExoPlayer = null;
-            currentVideoPosition = 0;
         }
         if (mediaSessionCompat != null) {
             mediaSessionCompat.setActive(false);
@@ -304,5 +310,6 @@ public class RecipeStepDetailsFragment extends BaseFragment implements ExoPlayer
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(RECIPE_SELECTED_STEP_DETAILS, selectedPosition);
+        outState.putLong(SELECTED_RECIPE_VIDEO_POSITION, currentVideoPosition);
     }
 }

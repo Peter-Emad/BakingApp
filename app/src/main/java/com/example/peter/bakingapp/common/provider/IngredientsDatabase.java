@@ -7,7 +7,7 @@ import android.arch.persistence.room.RoomDatabase;
  * Created by Peter on 11/02/2018.
  */
 
-@Database(entities = {IngredientsData.class}, version = 1)
+@Database(entities = {IngredientsData.class}, version = 2,exportSchema = false)
 public abstract class IngredientsDatabase extends RoomDatabase {
     public abstract IngredientsDao ingredientsDao();
 }
