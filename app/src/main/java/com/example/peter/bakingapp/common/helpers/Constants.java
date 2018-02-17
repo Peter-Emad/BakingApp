@@ -14,6 +14,7 @@ public class Constants {
     public static final String RECIPE_SELECTED_STEP_DETAILS = "RECIPE_SELECTED_STEP_DETAILS";
     public static final String SELECTED_RECIPE_VIDEO_POSITION = "SELECTED_RECIPE_VIDEO_POSITION";
     public static final String INGREDIENTS_DATABASE_NAME = "ingredients_database";
+    public static final String EXO_PLAYER_PLAY_WHEN_READY = "EXO_PLAYER_PLAY_WHEN_READY";
 
 
 }

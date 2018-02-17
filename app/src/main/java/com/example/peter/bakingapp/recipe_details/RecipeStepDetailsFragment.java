@@ -43,6 +43,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.peter.bakingapp.common.helpers.Constants.EXO_PLAYER_PLAY_WHEN_READY;
 import static com.example.peter.bakingapp.common.helpers.Constants.RECIPE_SELECTED_STEP_DETAILS;
 import static com.example.peter.bakingapp.common.helpers.Constants.SELECTED_RECIPE_VIDEO_POSITION;
 
@@ -63,6 +64,7 @@ public class RecipeStepDetailsFragment extends BaseFragment implements ExoPlayer
     private MediaSessionCompat mediaSessionCompat;
     private PlaybackStateCompat.Builder playBackState;
     private long currentVideoPosition;
+    private boolean exoPlayerPlayWhenReady;
 
     public static RecipeStepDetailsFragment newInstance(List<Step> stepList, int position) {
         RecipeStepDetailsFragment recipeStepDetailsFragment = new RecipeStepDetailsFragment();
@@ -86,6 +88,7 @@ public class RecipeStepDetailsFragment extends BaseFragment implements ExoPlayer
                 selectedPosition = savedInstanceState.getInt(RECIPE_SELECTED_STEP_DETAILS);
             if (savedInstanceState.getLong(SELECTED_RECIPE_VIDEO_POSITION) != 0)
                 currentVideoPosition = savedInstanceState.getLong(SELECTED_RECIPE_VIDEO_POSITION);
+            exoPlayerPlayWhenReady = savedInstanceState.getBoolean(EXO_PLAYER_PLAY_WHEN_READY, true);
             initSelectedRecipeStep(selectedPosition);
         }
 
@@ -149,7 +152,7 @@ public class RecipeStepDetailsFragment extends BaseFragment implements ExoPlayer
             String userAgent = Util.getUserAgent(context, getString(R.string.app_name));
             MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(steps.get(selectedPosition).getVideoURL()), new DefaultDataSourceFactory(context, userAgent), new DefaultExtractorsFactory(), null, null);
             simpleExoPlayer.prepare(mediaSource);
-            simpleExoPlayer.setPlayWhenReady(true);
+            simpleExoPlayer.setPlayWhenReady(exoPlayerPlayWhenReady);
         } else
             simpleExoPlayer.seekTo(currentVideoPosition);
 
@@ -204,21 +207,22 @@ public class RecipeStepDetailsFragment extends BaseFragment implements ExoPlayer
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        releasePlayer();
+    public void onStart() {
+        super.onStart();
+        if (Util.SDK_INT > 23) {
+            initMediaSessionAndPlayer();
+        }
     }
+
 
     @Override
     public void onResume() {
         super.onResume();
-        initMediaSessionAndPlayer();
-
-
+        if ((Util.SDK_INT <= 23 || simpleExoPlayer == null))
+            initMediaSessionAndPlayer();
     }
 
     @Override
@@ -226,7 +230,15 @@ public class RecipeStepDetailsFragment extends BaseFragment implements ExoPlayer
         super.onPause();
         if (simpleExoPlayer != null)
             currentVideoPosition = simpleExoPlayer.getCurrentPosition();
-        releasePlayer();
+        if (Util.SDK_INT <= 23)
+            releasePlayer();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (Util.SDK_INT > 23)
+            releasePlayer();
     }
 
     @Override
@@ -311,5 +323,6 @@ public class RecipeStepDetailsFragment extends BaseFragment implements ExoPlayer
         super.onSaveInstanceState(outState);
         outState.putInt(RECIPE_SELECTED_STEP_DETAILS, selectedPosition);
         outState.putLong(SELECTED_RECIPE_VIDEO_POSITION, currentVideoPosition);
+        outState.putBoolean(EXO_PLAYER_PLAY_WHEN_READY, simpleExoPlayer.getPlayWhenReady());
     }
 }
