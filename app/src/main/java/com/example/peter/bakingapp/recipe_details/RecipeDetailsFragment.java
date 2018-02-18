@@ -3,6 +3,7 @@ package com.example.peter.bakingapp.recipe_details;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,6 +23,8 @@ import com.example.peter.bakingapp.common.provider.IngredientsData;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.peter.bakingapp.common.helpers.Constants.RECIPE_DETAILS_SCROLL_POSITION_X;
+import static com.example.peter.bakingapp.common.helpers.Constants.RECIPE_DETAILS_SCROLL_POSITION_Y;
 import static com.example.peter.bakingapp.common.helpers.Constants.RECIPE_KEY;
 
 /**
@@ -33,6 +36,9 @@ public class RecipeDetailsFragment extends BaseFragment {
     private Context context;
     private RecyclerView rvRecipeIngredients, rvRecipeSteps;
     private RecipesResponse recipesResponse;
+    private NestedScrollView nscrlRecipeContainer;
+    private int scrollYPosition;
+    private int scrollXPosition;
 
     public static RecipeDetailsFragment newInstance(RecipesResponse recipesResponse) {
         RecipeDetailsFragment recipeDetailsFragment = new RecipeDetailsFragment();
@@ -49,7 +55,14 @@ public class RecipeDetailsFragment extends BaseFragment {
         View v = inflater.inflate(R.layout.fragment_recipe_details, container, false);
         initializeViews(v);
         setHasOptionsMenu(true);
+        if (savedInstanceState != null) {
+            {
+                scrollYPosition = savedInstanceState.getInt(RECIPE_DETAILS_SCROLL_POSITION_Y);
+                scrollXPosition = savedInstanceState.getInt(RECIPE_DETAILS_SCROLL_POSITION_X);
+            }
+        }
         return v;
+
     }
 
     private void initRvIngredients() {
@@ -66,6 +79,7 @@ public class RecipeDetailsFragment extends BaseFragment {
         context = getActivity();
         initRvIngredients();
         initRvSteps();
+        nscrlRecipeContainer.scrollTo(scrollXPosition, scrollYPosition);
         // run the sentence in a new thread
         addLatestIngredientsToDatabase(false);
     }
@@ -113,6 +127,7 @@ public class RecipeDetailsFragment extends BaseFragment {
         if (getArguments().getParcelable(RECIPE_KEY) != null)
             recipesResponse = getArguments().getParcelable(RECIPE_KEY);
 
+        nscrlRecipeContainer = v.findViewById(R.id.nscrlRecipeContainer);
         rvRecipeIngredients = v.findViewById(R.id.rvRecipeIngredients);
         rvRecipeSteps = v.findViewById(R.id.rvRecipeSteps);
         rvRecipeSteps.setNestedScrollingEnabled(false);
@@ -146,5 +161,13 @@ public class RecipeDetailsFragment extends BaseFragment {
         }
 
         return false;
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(RECIPE_DETAILS_SCROLL_POSITION_Y, nscrlRecipeContainer.getScrollY());
+        outState.putInt(RECIPE_DETAILS_SCROLL_POSITION_X, nscrlRecipeContainer.getScrollX());
     }
 }

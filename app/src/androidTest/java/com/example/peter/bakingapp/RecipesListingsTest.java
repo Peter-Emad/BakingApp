@@ -3,6 +3,7 @@ package com.example.peter.bakingapp;
 import android.content.ComponentName;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -44,11 +45,18 @@ public class RecipesListingsTest {
 
     @Test
     public void checkIfRecipeDetailsActivityIsLaunchedOnRecipeClick() throws Exception {
+        Intents.init();
+        try {
+            Thread.sleep(2000);
+        }catch (InterruptedException ignored) {
+        }
         onView(withId(android.R.id.content)).perform(ViewActions.swipeUp());
         onView(withId(R.id.rvRecipesListing))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         Thread.sleep(1000);
         intended(hasComponent(new ComponentName(getTargetContext(), RecipeDetailsActivity.class)));
+        Intents.release();
+
     }
 
 }
